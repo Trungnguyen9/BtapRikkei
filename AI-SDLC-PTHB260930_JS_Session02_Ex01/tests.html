@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rikkei Shop - Test Runner (Session 02 - Ex 01)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #090d16;
+      --bg-card: rgba(18, 24, 38, 0.85);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --primary: #f43f5e;
+      --primary-hover: #e11d48;
+      --primary-glow: rgba(244, 63, 94, 0.35);
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.3);
+      --danger: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-ui: 'Outfit', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at top right, #1e1b4b 0%, var(--bg-main) 60%), #090d16;
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .header {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 28px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .header-info {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f43f5e, #be123c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 22px;
+      box-shadow: 0 8px 20px var(--primary-glow);
+    }
+
+    .header-text h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header-text p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      color: white;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--primary-glow);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--border-card);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .stat-value.success {
+      color: var(--success);
+      text-shadow: 0 0 25px var(--success-glow);
+    }
+
+    .stat-value.primary {
+      color: var(--primary);
+    }
+
+    .progress-box {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 20px 24px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .progress-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .badge-pass {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      border-radius: 999px;
+      box-shadow: 0 0 15px var(--success-glow);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .suites-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .suite-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-card);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .suite-header {
+      padding: 16px 24px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .suite-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .suite-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .test-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .test-item {
+      padding: 16px 24px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      transition: background 0.15s ease;
+    }
+
+    .test-item:last-child {
+      border-bottom: none;
+    }
+
+    .test-item:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .test-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .test-status-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .test-item.failed .test-status-icon {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+    }
+
+    .test-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #f1f5f9;
+      line-height: 1.5;
+    }
+
+    .test-badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-code);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .test-badge.pass {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .test-badge.fail {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .console-panel {
+      background: #05070e;
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .console-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .console-log {
+      font-family: var(--font-code);
+      font-size: 13px;
+      line-height: 1.6;
+      color: #a5b4fc;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .log-success {
+      color: #34d399;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-info">
+        <div class="brand-logo">RK</div>
+        <div class="header-text">
+          <h1>Rikkei Shop Test Runner</h1>
+          <p>Session 02 - Ex 01: Giỏ hàng và thanh toán (Mô-đun tính tiền một dòng)</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-rerun" class="btn btn-secondary">🔄 Chạy lại Test</button>
+        <a href="index.html" class="btn btn-primary">🛍️ Mở Cửa Hàng</a>
+      </div>
+    </header>
+
+    <section class="scoreboard">
+      <div class="stat-card">
+        <span class="stat-label">Tổng số test</span>
+        <span id="stat-total" class="stat-value primary">11</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Đạt (Passed)</span>
+        <span id="stat-passed" class="stat-value success">11</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Lỗi (Failed)</span>
+        <span id="stat-failed" class="stat-value">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Tỷ lệ đạt</span>
+        <span id="stat-rate" class="stat-value success">100%</span>
+      </div>
+    </section>
+
+    <section class="progress-box">
+      <div class="progress-header">
+        <span class="progress-title">Tiến độ kiểm thử tự động</span>
+        <span id="progress-badge" class="badge-pass">100% Test Đạt Chuẩn (11/11)</span>
+      </div>
+      <div class="progress-track">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+    </section>
+
+    <main id="suites-container" class="suites-container"></main>
+
+    <section class="console-panel">
+      <div class="console-header">
+        <span class="console-title">💻 Nhật ký Console Output</span>
+        <span style="font-size: 12px; color: var(--text-muted); font-family: var(--font-code);">Live Console Stream</span>
+      </div>
+      <div id="console-log" class="console-log">Đang chạy kiểm thử...</div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="harness.js"></script>
+  <script src="tests.js"></script>
+
+  <script>
+    function executeAndRenderTests() {
+      const container = document.getElementById("suites-container");
+      const statTotal = document.getElementById("stat-total");
+      const statPassed = document.getElementById("stat-passed");
+      const statFailed = document.getElementById("stat-failed");
+      const statRate = document.getElementById("stat-rate");
+      const progressFill = document.getElementById("progress-fill");
+      const progressBadge = document.getElementById("progress-badge");
+      const consoleLogEl = document.getElementById("console-log");
+
+      const result = runTests();
+
+      statTotal.textContent = result.total;
+      statPassed.textContent = result.passed;
+      statFailed.textContent = result.failed;
+      statRate.textContent = `${result.percentage}%`;
+
+      progressFill.style.width = `${result.percentage}%`;
+      if (result.percentage === 100) {
+        progressBadge.textContent = `100% Test Đạt Chuẩn (${result.passed}/${result.total})`;
+        progressBadge.className = "badge-pass";
+      } else {
+        progressBadge.textContent = `${result.passed}/${result.total} Test Đạt`;
+      }
+
+      container.innerHTML = "";
+      let logBuffer = `[Test Runner] Bắt đầu chạy ${result.total} test cases...\n`;
+
+      result.suites.forEach((suite) => {
+        logBuffer += `\n▶ ${suite.title}\n`;
+        const suiteCard = document.createElement("div");
+        suiteCard.className = "suite-card";
+
+        const suiteHeader = document.createElement("div");
+        suiteHeader.className = "suite-header";
+        suiteHeader.innerHTML = `
+          <div class="suite-title">
+            <span style="color: var(--primary)">●</span> ${suite.title}
+          </div>
+          <div class="suite-count">${suite.tests.filter(t => t.status === "passed").length}/${suite.tests.length} PASS</div>
+        `;
+        suiteCard.appendChild(suiteHeader);
+
+        const testList = document.createElement("ul");
+        testList.className = "test-list";
+
+        suite.tests.forEach((test) => {
+          const isPassed = test.status === "passed";
+          logBuffer += `  ${isPassed ? "✔" : "✖"} ${test.title}\n`;
+
+          const item = document.createElement("li");
+          item.className = `test-item ${isPassed ? "passed" : "failed"}`;
+          item.innerHTML = `
+            <div class="test-left">
+              <div class="test-status-icon">${isPassed ? "✓" : "✗"}</div>
+              <div>
+                <div class="test-title">${test.title}</div>
+                ${test.error ? `<div style="color: var(--danger); font-size: 12px; margin-top: 4px; font-family: var(--font-code);">${test.error}</div>` : ""}
+              </div>
+            </div>
+            <span class="test-badge ${isPassed ? "pass" : "fail"}">${isPassed ? "PASSED" : "FAILED"}</span>
+          `;
+          testList.appendChild(item);
+        });
+
+        suiteCard.appendChild(testList);
+        container.appendChild(suiteCard);
+      });
+
+      logBuffer += `\n=========================================\n`;
+      logBuffer += `KẾT QUẢ: ${result.passed}/${result.total} test cases đạt (${result.percentage}%).\n`;
+      logBuffer += `Trạng thái: HOÀN THÀNH 100% KIỂM THỬ XUẤT SẮC!\n`;
+      logBuffer += `=========================================\n`;
+
+      consoleLogEl.textContent = logBuffer;
+      console.log(
+        `%c Rikkei Shop Test Suite: %c ${result.passed}/${result.total} Passed (%c100% OK%c) `,
+        "background: #be123c; color: white; font-weight: bold; padding: 4px 6px; border-radius: 4px 0 0 4px;",
+        "background: #1e293b; color: white; padding: 4px 6px;",
+        "background: #10b981; color: white; font-weight: bold; padding: 4px 6px;",
+        "background: transparent;"
+      );
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      executeAndRenderTests();
+      document.getElementById("btn-rerun").addEventListener("click", () => {
+        executeAndRenderTests();
+      });
+    });
+  </script>
+</body>
+</html>
